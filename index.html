@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Invoice Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Create a New Invoice</h2>
+        <form id="invoice-form">
+            <div class="form-group">
+                <label for="customer-name">Customer Name:</label>
+                <input type="text" id="customer-name" placeholder="Enter customer name" required>
+            </div>
+            <div class="form-group">
+                <label for="customer-address">Address:</label>
+                <input type="text" id="customer-address" placeholder="Enter address" required>
+            </div>
+            <div class="form-group">
+                <label for="customer-phone">Phone:</label>
+                <input type="text" id="customer-phone" placeholder="Enter phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="invoice-number">Invoice No.:</label>
+                <input type="text" id="invoice-number" placeholder="Auto-generated or enter manually">
+            </div>
+            <div class="form-group">
+                <label for="invoice-date">Invoice Date:</label>
+                <input type="date" id="invoice-date">
+            </div>
+            <div class="form-group">
+                <label for="due-date">Due Date:</label>
+                <input type="date" id="due-date">
+            </div>
+            <div id="item-list">
+                <div class="item-group">
+                    <div class="form-group">
+                        <label for="item-name-1">Item Name:</label>
+                        <input type="text" class="item-name" id="item-name-1" placeholder="Enter item name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-quantity-1">Quantity:</label>
+                        <input type="number" class="item-quantity" id="item-quantity-1" placeholder="Enter quantity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-rate-1">Rate:</label>
+                        <input type="number" class="item-rate" id="item-rate-1" placeholder="Enter rate" step="0.01" required>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="add-item">Add Another Item</button>
+            <div class="button-group">
+                <button type="button" id="generate-invoice">Generate Invoice</button>
+                <button type="reset">Reset Form</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="invoice-container" id="invoice" style="display: none;">
+        <header class="invoice-header">
+            <h1>Ambey Traders</h1>
+            <p>Flat NO 11 Ground Floor Nilkanth Tower, Kaushambi, Ghaziabad, Uttar Pradesh, 201010</p>
+            <p>Mobile: 9876543210 | GSTIN: 09CWZPK1158E1Z2 | PAN: CWZPK1158E</p>
+            <p>Email: ambey.traders06@gmail.com</p>
+        </header>
+
+        <section class="invoice-info">
+            <div>
+                <p><strong>Invoice No.:</strong> <span id="display-invoice-number"></span></p>
+                <p><strong>Invoice Date:</strong> <span id="display-invoice-date"></span></p>
+                <p><strong>Due Date:</strong> <span id="display-due-date"></span></p>
+            </div>
+            <div>
+                <p><strong>BILL TO</strong></p>
+                <p id="bill-to-name"></p>
+                <p id="bill-to-address"></p>
+                <p id="bill-to-phone"></p>
+            </div>
+            <div>
+                <p><strong>SHIP TO</strong></p>
+                <p id="ship-to-name"></p>
+                <p id="ship-to-address"></p>
+                <p id="ship-to-phone"></p>
+            </div>
+        </section>
+
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>ITEMS</th>
+                    <th>QTY</th>
+                    <th>RATE</th>
+                    <th>TAX (18%)</th>
+                    <th>AMOUNT</th>
+                </tr>
+            </thead>
+            <tbody id="item-display-table">
+                <!-- Items will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <div class="invoice-summary">
+            <div>
+                <p><strong>Total Amount (with Tax):</strong> ₹ <span id="total-amount"></span></p>
+            </div>
+        </div>
+
+        <footer class="invoice-footer">
+            <p>Total Amount (in words): <span id="amount-in-words"></span></p>
+            <p><strong>Terms and Conditions:</strong></p>
+            <ul>
+                <li>Goods once sold will not be taken back or exchanged.</li>
+                <li>All disputes are subject to the jurisdiction of our business location.</li>
+            </ul>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
