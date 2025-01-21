@@ -11,16 +11,12 @@
         <h2>Create a New Invoice</h2>
         <form id="invoice-form">
             <div class="form-group">
-                <label for="customer-name">Customer Name:</label>
+                <label for="customer-name">Bill To - Customer Name:</label>
                 <input type="text" id="customer-name" placeholder="Enter customer name" required>
             </div>
             <div class="form-group">
-                <label for="customer-address">Address:</label>
+                <label for="customer-address">Bill To - Address:</label>
                 <input type="text" id="customer-address" placeholder="Enter address" required>
-            </div>
-            <div class="form-group">
-                <label for="customer-phone">Phone:</label>
-                <input type="text" id="customer-phone" placeholder="Enter phone number" required>
             </div>
             <div class="form-group">
                 <label for="invoice-number">Invoice No.:</label>
@@ -45,8 +41,8 @@
                         <input type="number" class="item-quantity" id="item-quantity-1" placeholder="Enter quantity" required>
                     </div>
                     <div class="form-group">
-                        <label for="item-rate-1">Rate:</label>
-                        <input type="number" class="item-rate" id="item-rate-1" placeholder="Enter rate" step="0.01" required>
+                        <label for="item-rate-1">Rate (Incl. Tax):</label>
+                        <input type="number" class="item-rate" id="item-rate-1" placeholder="Enter rate including tax" step="0.01" required>
                     </div>
                 </div>
             </div>
@@ -67,31 +63,32 @@
         </header>
 
         <section class="invoice-info">
-            <div>
-                <p><strong>Invoice No.:</strong> <span id="display-invoice-number"></span></p>
-                <p><strong>Invoice Date:</strong> <span id="display-invoice-date"></span></p>
-                <p><strong>Due Date:</strong> <span id="display-due-date"></span></p>
-            </div>
-            <div>
-                <p><strong>BILL TO</strong></p>
-                <p id="bill-to-name"></p>
-                <p id="bill-to-address"></p>
-                <p id="bill-to-phone"></p>
-            </div>
-            <div>
-                <p><strong>SHIP TO</strong></p>
-                <p id="ship-to-name"></p>
-                <p id="ship-to-address"></p>
-                <p id="ship-to-phone"></p>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <p><strong>Invoice No.:</strong> <span id="display-invoice-number"></span></p>
+                    <p><strong>Invoice Date:</strong> <span id="display-invoice-date"></span></p>
+                    <p><strong>Due Date:</strong> <span id="display-due-date"></span></p>
+                </div>
+                <div>
+                    <p><strong>BILL TO</strong></p>
+                    <p id="bill-to-name"></p>
+                    <p id="bill-to-address"></p>
+                </div>
+                <div>
+                    <p><strong>SHIP TO</strong></p>
+                    <p id="ship-to-name-display"></p>
+                    <p id="ship-to-address-display"></p>
+                </div>
             </div>
         </section>
 
         <table class="invoice-table">
             <thead>
                 <tr>
+                    <th>S.No</th>
                     <th>ITEMS</th>
                     <th>QTY</th>
-                    <th>RATE</th>
+                    <th>RATE (Excl. Tax)</th>
                     <th>TAX (18%)</th>
                     <th>AMOUNT</th>
                 </tr>
@@ -103,12 +100,12 @@
 
         <div class="invoice-summary">
             <div>
-                <p><strong>Total Amount (with Tax):</strong> ₹ <span id="total-amount"></span></p>
+                <p><strong>Total Amount (Incl. Tax):</strong> ₹ <span id="total-amount"></span></p>
+                <p><strong>Total Amount (in words):</strong> <span id="amount-in-words"></span></p>
             </div>
         </div>
 
         <footer class="invoice-footer">
-            <p>Total Amount (in words): <span id="amount-in-words"></span></p>
             <p><strong>Terms and Conditions:</strong></p>
             <ul>
                 <li>Goods once sold will not be taken back or exchanged.</li>
@@ -118,5 +115,6 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 </body>
 </html>
