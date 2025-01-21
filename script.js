@@ -1,85 +1,148 @@
-document.getElementById("generate-invoice").addEventListener("click", function () {
-    const customerName = document.getElementById("customer-name").value;
-    const customerAddress = document.getElementById("customer-address").value;
-    const customerPhone = document.getElementById("customer-phone").value;
-    const invoiceNumber = document.getElementById("invoice-number").value || Math.floor(Math.random() * 10000);
-    const invoiceDate = document.getElementById("invoice-date").value || new Date().toISOString().split('T')[0];
-    const dueDate = document.getElementById("due-date").value || new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0];
+/* General Reset */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #000000 ;
+}
 
-    // Fill SHIP TO details same as BILL TO
-    document.getElementById("bill-to-name").textContent = customerName;
-    document.getElementById("bill-to-address").textContent = customerAddress;
-    document.getElementById("bill-to-phone").textContent = customerPhone;
+/* Form Styling */
+.form-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
 
-    document.getElementById("ship-to-name").textContent = customerName;
-    document.getElementById("ship-to-address").textContent = customerAddress;
-    document.getElementById("ship-to-phone").textContent = customerPhone;
+.form-container h2 {
+    text-align: center;
+    color: #E1937C;
+}
 
-    // Display invoice info
-    document.getElementById("display-invoice-number").textContent = invoiceNumber;
-    document.getElementById("display-invoice-date").textContent = invoiceDate;
-    document.getElementById("display-due-date").textContent = dueDate;
+.form-group {
+    margin-bottom: 15px;
+}
 
-    // Populate items
-    const itemList = document.querySelectorAll(".item-group");
-    const tableBody = document.getElementById("item-display-table");
-    tableBody.innerHTML = ""; // Clear existing rows
-    let grandTotal = 0;
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
 
-    itemList.forEach((itemGroup, index) => {
-        const itemName = itemGroup.querySelector(".item-name").value;
-        const itemQuantity = parseFloat(itemGroup.querySelector(".item-quantity").value);
-        const itemRate = parseFloat(itemGroup.querySelector(".item-rate").value);
-        const itemTax = (itemRate * itemQuantity * 0.18).toFixed(2);
-        const itemAmount = (itemRate * itemQuantity + parseFloat(itemTax)).toFixed(2);
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
 
-        grandTotal += parseFloat(itemAmount);
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
 
-        const row = `<tr>
-            <td>${itemName}</td>
-            <td>${itemQuantity}</td>
-            <td>${itemRate.toFixed(2)}</td>
-            <td>${itemTax}</td>
-            <td>${itemAmount}</td>
-        </tr>`;
+button {
+    background: #E1937C;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
 
-        tableBody.innerHTML += row;
-    });
+button:hover {
+    background: #45a049;
+}
 
-    document.getElementById("total-amount").textContent = grandTotal.toFixed(2);
-    document.getElementById("amount-in-words").textContent = numberToWords(grandTotal.toFixed(2)) + " Rupees Only";
+#add-item {
+    margin-bottom: 15px;
+    display: block;
+    width: 100%;
+    background: #2196F3;
+}
 
-    // Show the invoice
-    document.getElementById("invoice").style.display = "block";
-});
+#add-item:hover {
+    background: #1976D2;
+}
 
-document.getElementById("add-item").addEventListener("click", function () {
-    const itemList = document.getElementById("item-list");
-    const itemCount = itemList.children.length + 1;
+/* Invoice Styling */
+.invoice-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
 
-    const newItem = document.createElement("div");
-    newItem.classList.add("item-group");
-    newItem.innerHTML = `
-        <div class="form-group">
-            <label for="item-name-${itemCount}">Item Name:</label>
-            <input type="text" class="item-name" id="item-name-${itemCount}" placeholder="Enter item name" required>
-        </div>
-        <div class="form-group">
-            <label for="item-quantity-${itemCount}">Quantity:</label>
-            <input type="number" class="item-quantity" id="item-quantity-${itemCount}" placeholder="Enter quantity" required>
-        </div>
-        <div class="form-group">
-            <label for="item-rate-${itemCount}">Rate:</label>
-            <input type="number" class="item-rate" id="item-rate-${itemCount}" placeholder="Enter rate" step="0.01" required>
-        </div>
-    `;
+.invoice-header {
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
 
-    itemList.appendChild(newItem);
-});
+.invoice-header h1 {
+    margin: 0;
+    color: #E1937C;
+}
 
-// Function to convert numbers to words (Basic Implementation)
-function numberToWords(amount) {
-    const words = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
-    const integerPart = Math.floor(amount);
-    return words[integerPart] || "Complex Amount"; // Simplified for demonstration
+.invoice-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.invoice-info div {
+    width: 45%;
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.invoice-table th, .invoice-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.invoice-table th {
+    background: #E1937C;
+    color: white;
+}
+
+.invoice-summary {
+    margin-top: 20px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.invoice-footer {
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.invoice-footer ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.invoice-footer ul li {
+    margin-bottom: 5px;
 }
